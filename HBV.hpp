@@ -177,12 +177,13 @@ namespace common
 		*/
 		class hbv final
 		{
-			//硬编码4层
+			//硬编码4层,可能过度优化?
 			flag_t _layer0;
 			std::vector<flag_t> _layer1;
 			std::vector<flag_t> _layer2;
 			//block大小对应layer2
 			block_vector _layer3;
+			//设定一个初值:全0或全1
 			bool default_value;
 		public:
 			hbv(index_t max = 10, bool default_value = false) : default_value(default_value)
@@ -230,7 +231,7 @@ namespace common
 				return ((_layer3.size() - 1) << BitsPerLayer) + 1;
 			}
 
-			//范围设置标志位,性能大幅高于依次设置
+			//范围设置标志位,性能大幅高于依次设置,但代码十分麻烦
 			void range_set(index_t begin, index_t end, bool value)
 			{
 				if (value)
@@ -550,7 +551,7 @@ namespace common
 		};
 
 		/*
-		复合分层位数组(Compound Hierarchical Bit Vector),惰性的在数组间应用函数,在查询时真正执行
+		复合分层位数组(Compound Hierarchical Bit Vector),编译期惰性的在数组间应用函数,在查询时真正执行合并
 		*/
 		template<typename F, typename... Ts>
 		class chbv

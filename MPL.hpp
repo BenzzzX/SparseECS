@@ -280,8 +280,6 @@ namespace common
 	template<typename T>
 	constexpr bool is_const_v = is_const<T>::value;
 
-	
-
 	namespace detail
 	{
 		template <template <class...> class Trait, class Enabler, class... Args>
@@ -401,10 +399,5 @@ namespace common
 	observer_ptr<T> make_observer(T* t)
 	{
 		return { t };
-	}
-
-	void test()
-	{
-		
 	}
 }

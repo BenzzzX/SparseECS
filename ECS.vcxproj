@@ -156,6 +156,7 @@
     <ClInclude Include="Components.hpp" />
     <ClInclude Include="Entities.hpp" />
     <ClInclude Include="HBV.hpp" />
+    <ClInclude Include="MPL.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Storages.hpp" />
     <ClInclude Include="Storages\DenseVector.hpp" />

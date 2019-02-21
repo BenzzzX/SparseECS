@@ -21,6 +21,7 @@ namespace ecs
 
 	namespace view_detail
 	{
+		//这里需要无视const限定符的get
 		template<typename T, typename C>
 		static constexpr decltype(auto) nonstrict_get(C& c)
 		{
@@ -125,6 +126,7 @@ namespace ecs
 			}
 		};
 
+		//此处黑魔法
 		template<typename F>
 		struct implict_view_helper
 		{
@@ -139,7 +141,9 @@ namespace ecs
 			using upgrade_helper_t = typename upgrade_helper<std::decay_t<T>>::type;
 			template<typename T>
 			using upgrade = std::conditional_t<is_atomic_arg<T>::value, std::add_const_t<upgrade_helper_t<T>>, upgrade_helper_t<T>>;
+			//把参数升级到资源:从元素得到容器
 			using need_assets = common::map_t<upgrade, requests>;
+			//可能会有重复的参数,非const覆盖const
 			template<typename T>
 			using keep_mutable = std::negation<std::conjunction<common::is_const<T>, common::contain<common::remove_const_t<T>, need_assets>>>;
 			using assets = common::filter_t<keep_mutable, common::unique_t<need_assets>>;
@@ -148,10 +152,9 @@ namespace ecs
 
 		/*
 		获取一个 job 隐含的 view,job 需满足函数概念: filter_list(request_list...)
-		如 typelist<some_filter> some_job(some_component&, fuck&)
+		如 some_job(some_component&, fuck&)
 		规则:
-			1. 对于 job 指明的 filter,share 对应的资源
-			2. 对于参数
+			对于参数
 				1. const 引用,share 对应的资源
 				2. 引用,borrow 对应的资源
 				3. 左值,share 对应的资源
@@ -161,9 +164,9 @@ namespace ecs
 
 		/*
 		在 view 上执行一个逻辑(可通过模板参数指定迭代策略),逻辑需满足函数概念: filter_list(request_list...)
-		如 typelist<some_filter> some_job(some_component&, fuck&)
+		如 some_job(some_component&, fuck&)
 		执行流程: 
-			1. 收集 job 指明的 filter,对于 componen 和 entity 参数,添加对应的 has filter
+			1. 对于 componen 和 entity 参数,添加对应的 has filter
 			2. 如果
 				1. filter 数量大于零,根据 filter 筛选 entity 调用
 				2. filter 数量等于零,直接调用一次

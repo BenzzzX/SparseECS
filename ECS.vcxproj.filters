@@ -51,6 +51,9 @@
     <ClInclude Include="Storages\UniqueVector.hpp">
       <Filter>头文件\Storages</Filter>
     </ClInclude>
+    <ClInclude Include="MPL.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
