@@ -25,7 +25,7 @@ namespace ecs
 	/*
 	entities 为 entity 管理器,保证尽量分配出连续的 id 和追踪 entity 的有效性
 	kill 会使 entity 进入 killed 状态,并在调用 die 后正式生效(这样能保证顺序无关性)
-	entities 满足 hbv_map<id, entity> 的概念,提供 filter 和 get 方法
+	entities 满足 hbv_map<id, entity> 的概念,提供 has filter 和 get 方法
 	*/
 	class entities final //todo: 把entities改为原子类型
 	{

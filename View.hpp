@@ -39,9 +39,6 @@ namespace ecs
 		}
 
 		template<typename T>
-		struct is_filter : std::false_type {};
-
-		template<typename T>
 		using is_hbv_map_element = common::is_complete<hbv_map_trait<T>>;
 
 		template<typename... Ts>
@@ -151,7 +148,7 @@ namespace ecs
 		};
 
 		/*
-		获取一个 job 隐含的 view,job 需满足函数概念: filter_list(request_list...)
+		获取一个 job 隐含的 view,job 需满足函数概念: void(request_list...)
 		如 some_job(some_component&, fuck&)
 		规则:
 			对于参数
@@ -163,7 +160,7 @@ namespace ecs
 		using implict_view = typename implict_view_helper<F>::view;
 
 		/*
-		在 view 上执行一个逻辑(可通过模板参数指定迭代策略),逻辑需满足函数概念: filter_list(request_list...)
+		在 view 上执行一个逻辑(可通过模板参数指定迭代策略),逻辑需满足函数概念: void(request_list...)
 		如 some_job(some_component&, fuck&)
 		执行流程: 
 			1. 对于 componen 和 entity 参数,添加对应的 has filter

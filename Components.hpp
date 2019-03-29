@@ -132,8 +132,7 @@ namespace ecs
 
 	/*
 	components 是 component 的管理器
-	components 满足 hbv_map<id, component> 的概念,提供 filter 和 get 方法
-	filter 基于 tracer,默认只提供 has tracer,其余由用户定义
+	components 满足 hbv_map<id, component> 的概念,提供 has filter 和 get 方法
 	hbv_map 中的 map 由用户自定义, 默认提供一些实现(参考Storage)
 	*/
 	template<typename T, template<typename> class C = sparse_vector>

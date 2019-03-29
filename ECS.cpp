@@ -6,7 +6,6 @@
 
 #define View(...) ecs::view<__VA_ARGS__> view;
 #define Job(p, f) ecs::for_view<p>(view, f)
-#define Filters(...) -> common::typelist<__VA_ARGS__>
 #define Share const
 #define JobSystem(s, f) struct \
 { \
@@ -32,8 +31,7 @@ namespace ecs
 {	//把数据定义为 component
 	using Locations = Component(Location, sparse_vector);
 	using Velocities = Component(Velocity, sparse_vector);
-	//要使用特殊的 filter 可以手动开启 trace
-	using ScriptableMovers = Component(ScriptableMover, dense_vector/*, trace::hasNot*/);
+	using ScriptableMovers = Component(ScriptableMover, dense_vector);
 }
 
 struct VirtualMachine
@@ -66,7 +64,7 @@ struct RetainSystem
 
 //从一个纯函数中直接生成 system,view 将会自动推算
 using AnotherSystem = JobSystem(par,
-(Location& loc, const Velocity& vel) //额外指定 filter
+(Location& loc, const Velocity& vel)
 {
 	loc.x += vel.x; //对于没有脚本的 entity 直接位置加速度
 });

@@ -44,7 +44,7 @@ ecs 模块定义了 view 的概念:一个逻辑的可见度范围,其中包括:
 * 逻辑对资源的可操作度,目前只区分读(共享)/写(占有)
 
 在 view 的概念之上可以搭建 system,**但 ecs 模块并不定义 system**  
-
+		
 ecs 模块提供了基于 view 的工具,其中包括:
 * 在 view 上执行函数,函数参数将会自动填充,且 component 会自动识别并遍历(可以选择遍历策略为线性/并行)
 * 对于一个函数,可以自动提取他的 view
@@ -54,7 +54,6 @@ ecs 模块提供了基于 view 的工具,其中包括:
 ```c++
 #define View(...) ecs::view<__VA_ARGS__> view;
 #define Job(p, f) ecs::for_view<p>(view, f)
-#define Filters(...) -> common::typelist<__VA_ARGS__>
 #define Share const
 //定义数据
 struct Location { float x; };
@@ -79,7 +78,7 @@ struct SomeSystem
 			loc.x += vel.x;
 		});
 		Job(seq, [this] //线性逻辑
-		(const Location& loc) Filter(fhas<Velocity>)
+		(const Location& loc, const Velocity&) 
 		{
 			std::cout << loc.x << "\n"; //输出移动后的位置
 		});
